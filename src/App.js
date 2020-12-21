@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import Header from './components/Header'
+import Form from './components/Form'
+import Summary from './components/Summary'
+import Result from './components/Result'
+import Spinner from './components/Spinner'
+
+import styled from '@emotion/styled'
+
+const Container = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const FormContainer = styled.div`
+  background-color: #FFFFFF;
+  padding: 3rem;
+`;
+
 
 function App() {
+  const [summary, setSummary] = useState({})
+  const {data} = summary
+
+  const [loading, setLoading] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+        <Header title='Insurance Quote'/>
+        <FormContainer>
+          <Form 
+            setSummary={setSummary}
+            setLoading={setLoading}  
+            />
+          {loading ? <Spinner/> : null}
+          {data ? <Summary summary={summary}/> : null}
+          {!loading ? <Result summary={summary}/> : null}
+        </FormContainer>
+    </Container>
   );
 }
 
